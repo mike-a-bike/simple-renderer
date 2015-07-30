@@ -16,14 +16,32 @@
 
 package ch.zweivelo.renderer.simple;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Spring boot application for starting up the renderer.
+ *
+ * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
+ * @since 30.07.2015
+ * @version 0.1
+ */
 @SpringBootApplication
 public class SimpleRenderer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleRenderer.class);
+
     public static void main(String... arguments) {
+
         SpringApplication.run(SimpleRenderer.class, arguments);
+
+        LOGGER.info("Starting SimpleRenderer");
+
+
+
+        LOGGER.info("SimpleRenderer finished");
     }
 
 }
