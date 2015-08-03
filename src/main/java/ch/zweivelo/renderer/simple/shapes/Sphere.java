@@ -16,7 +16,6 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
-import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Ray;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -32,7 +31,6 @@ import java.util.Optional;
 public class Sphere implements Shape {
 
     private final Vector3D center;
-
     private final double radius;
 
 

@@ -16,14 +16,13 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
-import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Ray;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.util.Optional;
 
 /**
- * Representation of a plane. The plane is defined by a point and normal.
+ * Representation of a plane. The plane is defined by a origin and normal.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
@@ -31,18 +30,17 @@ import java.util.Optional;
  */
 public class Plane implements Shape {
 
-    private final Vector3D point;
-
+    private final Vector3D origin;
     private final Vector3D normal;
 
-    public Plane(final Vector3D point, final Vector3D normal) {
-        this.point = point;
+    public Plane(final Vector3D origin, final Vector3D normal) {
+        this.origin = origin;
         this.normal = normal.normalize();
     }
 
     @Override
     public Optional<Double> calculateIntersectionDistance(final Ray ray) {
-        double numerator = point.subtract(ray.getOrigin()).dotProduct(normal);
+        double numerator = origin.subtract(ray.getOrigin()).dotProduct(normal);
         double denominator = ray.getDirection().dotProduct(normal);
 
         if (denominator == 0d) {
@@ -53,11 +51,11 @@ public class Plane implements Shape {
         }
 
         double distance = numerator / denominator;
-        return ray.isValidT(distance) ? Optional.of(distance): Optional.empty();
+        return ray.isValidT(distance) ? Optional.of(distance) : Optional.empty();
     }
 
     @Override
     public String toString() {
-        return String.format("Plane{point=%s, normal=%s}", point, normal);
+        return String.format("Plane{origin=%s, normal=%s}", origin, normal);
     }
 }
