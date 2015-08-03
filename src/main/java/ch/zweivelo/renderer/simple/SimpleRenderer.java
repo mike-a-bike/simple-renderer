@@ -25,8 +25,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Spring boot application for starting up the renderer.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
- * @since 30.07.2015
  * @version 0.1
+ * @since 30.07.2015
  */
 @SpringBootApplication
 public class SimpleRenderer {
@@ -38,7 +38,6 @@ public class SimpleRenderer {
         SpringApplication.run(SimpleRenderer.class, arguments);
 
         LOGGER.info("Starting SimpleRenderer");
-
 
 
         LOGGER.info("SimpleRenderer finished");

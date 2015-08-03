@@ -14,17 +14,29 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.spring;
+package ch.zweivelo.renderer.simple.shapes;
 
-import org.springframework.context.annotation.Configuration;
+import ch.zweivelo.renderer.simple.math.CollisionInformation;
+import ch.zweivelo.renderer.simple.math.Ray;
+
+import java.util.Optional;
 
 /**
- * Spring boot configuration for the simple renderer project.
+ * Generic interface representing the methods of a shape
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
- * @since 30.07.2015
+ * @since 03.08.2015
  */
-@Configuration
-public class SimpleRendererConfiguration {
+public interface Shape {
+
+    Optional<Double> calculateIntersectionDistance(Ray ray);
+
+    default Optional<CollisionInformation> intersect(final Ray ray) {
+        return calculateIntersectionDistance(ray).map(
+                t -> new CollisionInformation(
+                        ray.calculatePoint(t)
+                )
+        );
+    }
 }

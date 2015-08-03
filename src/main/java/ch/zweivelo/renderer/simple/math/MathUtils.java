@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.spring;
+package ch.zweivelo.renderer.simple.math;
 
-import org.springframework.context.annotation.Configuration;
+import static java.lang.Math.PI;
 
 /**
- * Spring boot configuration for the simple renderer project.
+ * Collection of useful constants.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
- * @since 30.07.2015
+ * @since 03.08.2015
  */
-@Configuration
-public class SimpleRendererConfiguration {
+public interface MathUtils {
+
+    double EPSILON = 1e-10d;
+
+    double EPSIPON_MAX = 1 / EPSILON;
+
+    double TWO_PI = PI * 2d;
+
+    double INV_PI = 1d / PI;
+
 }

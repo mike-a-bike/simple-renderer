@@ -14,17 +14,36 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.spring;
+package ch.zweivelo.renderer.simple.math;
 
-import org.springframework.context.annotation.Configuration;
+import org.apache.commons.math3.util.Pair;
 
 /**
- * Spring boot configuration for the simple renderer project.
+ * Represent a value range.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
- * @since 30.07.2015
+ * @since 03.08.2015
  */
-@Configuration
-public class SimpleRendererConfiguration {
+public class DoubleRange {
+
+    private final double start;
+    private final double end;
+
+    public DoubleRange(double start, double end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    public boolean inRange(double value) {
+        return start <= value && value <= end;
+    }
+
+    public double getStart() {
+        return start;
+    }
+
+    public double getEnd() {
+        return end;
+    }
 }

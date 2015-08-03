@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.spring;
+package ch.zweivelo.renderer.simple.math;
 
-import org.springframework.context.annotation.Configuration;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
- * Spring boot configuration for the simple renderer project.
+ * Information about a collision between a Ray and a Shape
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
- * @since 30.07.2015
+ * @since 03.08.2015
  */
-@Configuration
-public class SimpleRendererConfiguration {
+public class CollisionInformation {
+
+    private final Vector3D collisionPoint;
+
+    public CollisionInformation(final Vector3D collisionPoint) {
+        this.collisionPoint = collisionPoint;
+    }
+
+    public Vector3D getCollisionPoint() {
+        return collisionPoint;
+    }
 }
