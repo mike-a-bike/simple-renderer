@@ -12,5 +12,5 @@ Images are save to an image file. No viewer is available.
 
 [travis-image]: https://travis-ci.org/mike-a-bike/simple-renderer.svg?branch=master
 [travis-url]: https://travis-ci.org/mike-a-bike/simple-renderer
-[license-image]: http://img.shields.io/:license-Apache2.0-blue.svg?style=flat-square
+[license-image]: http://img.shields.io/:license-Apache2.0-blue.svg
 [license-url]: LICENSE
