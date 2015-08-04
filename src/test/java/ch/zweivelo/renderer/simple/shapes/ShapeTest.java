@@ -54,29 +54,17 @@ public class ShapeTest {
     @Test
     public void testIntersect() throws Exception {
         Shape testee;
-        Optional<CollisionInformation> collisionInformation;
 
-        testee = new TestShape(Optional.<Double>empty());
+        testee = ray1 -> Optional.empty();
+        Optional<CollisionInformation> collisionInformation;
         collisionInformation = testee.intersect(ray);
         assertNotNull(collisionInformation);
         assertFalse(collisionInformation.isPresent());
 
-        testee = new TestShape(Optional.of(1d));
+        testee = ray1 -> Optional.of(1d);
         collisionInformation = testee.intersect(ray);
         assertNotNull(collisionInformation);
         assertEquals(Vector3D.PLUS_I, collisionInformation.get().getCollisionPoint());
     }
 
-    private static class TestShape implements Shape {
-        private Optional<Double> expectedResult;
-
-        public TestShape(Optional<Double> expectedResult) {
-            this.expectedResult = expectedResult;
-        }
-
-        @Override
-        public Optional<Double> calculateIntersectionDistance(final Ray ray) {
-            return expectedResult;
-        }
-    }
 }
