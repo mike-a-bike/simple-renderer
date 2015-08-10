@@ -53,18 +53,20 @@ public class ShapeTest {
 
     @Test
     public void testIntersect() throws Exception {
-        Shape testee;
+        Shape testShape;
+        Optional<CollisionInformation> collisionInformationOptional;
 
-        testee = ray1 -> Optional.empty();
-        Optional<CollisionInformation> collisionInformation;
-        collisionInformation = testee.intersect(ray);
-        assertNotNull(collisionInformation);
-        assertFalse(collisionInformation.isPresent());
+        testShape = ray1 -> Optional.empty();
+        collisionInformationOptional = testShape.intersect(ray);
+        assertNotNull(collisionInformationOptional);
+        assertFalse(collisionInformationOptional.isPresent());
 
-        testee = ray1 -> Optional.of(1d);
-        collisionInformation = testee.intersect(ray);
-        assertNotNull(collisionInformation);
-        assertEquals(Vector3D.PLUS_I, collisionInformation.get().getCollisionPoint());
+        testShape = ray1 -> Optional.of(1d);
+        collisionInformationOptional = testShape.intersect(ray);
+        assertNotNull(collisionInformationOptional);
+        CollisionInformation collisionInformation = collisionInformationOptional.get();
+        assertNotNull(collisionInformation.getShape());
+        assertEquals(Vector3D.PLUS_I, collisionInformation.getPoint());
     }
 
 }

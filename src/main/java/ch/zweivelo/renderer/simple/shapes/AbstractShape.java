@@ -16,35 +16,23 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
-import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Color;
-import ch.zweivelo.renderer.simple.math.Ray;
-
-import java.util.Optional;
 
 /**
- * Generic interface representing the methods of a shape
+ * A base class containing a color field.
  *
  * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
  * @version 0.1
- * @since 03.08.2015
+ * @since 10.08.2015
  */
-public interface Shape {
+public abstract class AbstractShape implements Shape {
+    protected final Color color;
 
-    Optional<Double> calculateIntersectionDistance(Ray ray);
-
-    default Optional<CollisionInformation> intersect(final Ray ray) {
-        return calculateIntersectionDistance(ray).map(
-                distance -> new CollisionInformation(
-                        distance,
-                        this,
-                        ray.calculatePoint(distance),
-                        getColor()
-                )
-        );
+    public AbstractShape(final Color color) {
+        this.color = color;
     }
 
-    default Color getColor() {
-        return Color.BLACK;
+    public Color getColor() {
+        return color;
     }
 }

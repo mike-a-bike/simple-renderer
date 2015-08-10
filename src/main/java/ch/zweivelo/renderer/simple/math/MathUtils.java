@@ -16,7 +16,7 @@
 
 package ch.zweivelo.renderer.simple.math;
 
-import static java.lang.Math.PI;
+import static org.apache.commons.math3.util.FastMath.PI;
 
 /**
  * Collection of useful constants.
@@ -25,14 +25,26 @@ import static java.lang.Math.PI;
  * @version 0.1
  * @since 03.08.2015
  */
-public interface MathUtils {
+public abstract class MathUtils {
 
-    double EPSILON = 1e-10d;
+    public static final double EPSILON = 1e-9d;
 
-    double EPSIPON_MAX = 1 / EPSILON;
+    private static final double SMALL_ESPILON = EPSILON / 10d;
 
-    double TWO_PI = PI * 2d;
+    public static final double EPSIPON_MAX = 1 / EPSILON;
 
-    double INV_PI = 1d / PI;
+    public static final double TWO_PI = PI * 2d;
+
+    public static final double INV_PI = 1d / PI;
+
+    /**
+     * Check if value is zero with a tolerance of {@value #SMALL_ESPILON}
+     *
+     * @param value The value to check
+     * @return true if {@value #SMALL_ESPILON} <= value <= {@value #SMALL_ESPILON}, false otherwise
+     */
+    public static boolean isZero(double value) {
+        return -SMALL_ESPILON <= value && value <= SMALL_ESPILON;
+    }
 
 }

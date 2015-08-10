@@ -16,6 +16,7 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
+import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.math.Ray;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
@@ -28,12 +29,13 @@ import java.util.Optional;
  * @version 0.1
  * @since 03.08.2015
  */
-public class Plane implements Shape {
+public class Plane extends AbstractShape {
 
     private final Vector3D origin;
     private final Vector3D normal;
 
     public Plane(final Vector3D origin, final Vector3D normal) {
+        super(Color.BLUE);
         this.origin = origin;
         this.normal = normal.normalize();
     }

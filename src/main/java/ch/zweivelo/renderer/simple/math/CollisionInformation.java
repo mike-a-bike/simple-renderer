@@ -16,6 +16,7 @@
 
 package ch.zweivelo.renderer.simple.math;
 
+import ch.zweivelo.renderer.simple.shapes.Shape;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -27,13 +28,31 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  */
 public class CollisionInformation {
 
-    private final Vector3D collisionPoint;
+    private final double distance;
+    private final Vector3D point;
+    private final Shape shape;
+    private final Color color;
 
-    public CollisionInformation(final Vector3D collisionPoint) {
-        this.collisionPoint = collisionPoint;
+    public CollisionInformation(final double distance, final Shape shape, final Vector3D point, final Color color) {
+        this.distance = distance;
+        this.shape = shape;
+        this.point = point;
+        this.color = color;
     }
 
-    public Vector3D getCollisionPoint() {
-        return collisionPoint;
+    public double getDistance() {
+        return distance;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
+
+    public Vector3D getPoint() {
+        return point;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

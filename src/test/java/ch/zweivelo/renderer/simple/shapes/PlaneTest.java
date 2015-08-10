@@ -16,15 +16,20 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
-import ch.zweivelo.renderer.simple.math.DoubleRange;
-import ch.zweivelo.renderer.simple.math.MathUtils;
+import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Ray;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static ch.zweivelo.renderer.simple.math.MathUtils.EPSILON;
+import static org.apache.commons.math3.geometry.euclidean.threed.Vector3D.MINUS_J;
+import static org.apache.commons.math3.geometry.euclidean.threed.Vector3D.PLUS_J;
+import static org.apache.commons.math3.geometry.euclidean.threed.Vector3D.ZERO;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test the calculations of the intersection distances for a plane and a ray.
@@ -35,16 +40,32 @@ import static org.junit.Assert.*;
  */
 public class PlaneTest {
 
+    private Plane plane;
+    private Ray ray;
+
+    @Before
+    public void setUp() throws Exception {
+        plane = new Plane(ZERO, PLUS_J);
+        ray = new Ray(PLUS_J, MINUS_J);
+    }
+
     @Test
     public void testCalculateIntersectionDistance() throws Exception {
-        Plane p = new Plane(Vector3D.ZERO, Vector3D.PLUS_J);
-        Ray r = new Ray(Vector3D.PLUS_J, Vector3D.MINUS_J);
 
-        Optional<Double> doubleOptional = p.calculateIntersectionDistance(r);
+        Optional<Double> doubleOptional = plane.calculateIntersectionDistance(ray);
 
         assertNotNull(doubleOptional);
         assertTrue(doubleOptional.isPresent());
-        assertEquals(1d, doubleOptional.get(), MathUtils.EPSILON);
+        assertEquals(1d, doubleOptional.get(), EPSILON);
     }
 
+    @Test
+    public void testIntersect() throws Exception {
+
+        Optional<CollisionInformation> collisionInformationOptional = plane.intersect(ray);
+
+        CollisionInformation collisionInformation = collisionInformationOptional.get();
+        assertNotNull(collisionInformation.getShape());
+        assertTrue(collisionInformation.getShape() instanceof Plane);
+    }
 }

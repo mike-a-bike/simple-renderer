@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import static ch.zweivelo.renderer.simple.math.MathUtils.EPSILON;
 import static ch.zweivelo.renderer.simple.math.MathUtils.EPSIPON_MAX;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -60,6 +61,6 @@ public class RayTest {
 
     @Test
     public void testCalculatePoint() throws Exception {
-
+        assertEquals(Vector3D.PLUS_I, ray.calculatePoint(1d));
     }
 }

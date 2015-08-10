@@ -16,10 +16,13 @@
 
 package ch.zweivelo.renderer.simple.shapes;
 
+import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.math.Ray;
+import ch.zweivelo.renderer.simple.math.Solver;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 /**
  * Sphere representation characterized by its location and a radius.
@@ -28,19 +31,32 @@ import java.util.Optional;
  * @version 0.1
  * @since 03.08.2015
  */
-public class Sphere implements Shape {
+public class Sphere extends AbstractShape {
 
     private final Vector3D center;
     private final double radius;
 
 
     public Sphere(final Vector3D center, final double radius) {
+        super(Color.RED);
         this.center = center;
         this.radius = radius;
     }
 
     @Override
     public Optional<Double> calculateIntersectionDistance(final Ray ray) {
+        Vector3D dir = ray.getDirection();
+        Vector3D tmp = ray.getOrigin().subtract(center);
+
+        OptionalDouble min = Solver.QUADRATIC.solve(
+                tmp.dotProduct(tmp) - radius * radius,
+                2 * dir.dotProduct(tmp),
+                dir.dotProduct(dir)).min();
+
+        if (min.isPresent()) {
+            return Optional.of(min.getAsDouble());
+        }
+
         return Optional.empty();
     }
 
