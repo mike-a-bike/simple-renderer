@@ -16,10 +16,23 @@
 
 package ch.zweivelo.renderer.simple;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 /**
  * Spring boot application for starting up the renderer.
@@ -33,13 +46,53 @@ public class SimpleRenderer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleRenderer.class);
 
-    public static void main(String... arguments) {
+    public static void main(String[] arguments) {
 
         SpringApplication.run(SimpleRenderer.class, arguments);
 
         LOGGER.info("Starting SimpleRenderer");
 
+        CommandLine commandLine = pareseCommandLine(arguments);
+
+        if (commandLine != null) {
+
+            String sceneFileName = commandLine.getOptionValue("s");
+            LOGGER.info("Loading scene: " + sceneFileName);
+
+            Yaml yaml = new Yaml();
+            try (InputStream yamlStream = FileUtils.openInputStream(new File(sceneFileName))) {
+
+                final Map<String, Object> scene = (Map<String, Object>) yaml.load(yamlStream);
+
+                LOGGER.debug("Loaded scene: " + scene);
+
+            } catch (IOException exeption) {
+                LOGGER.error("Error reading scene file: " + exeption.getMessage(), exeption);
+            }
+        }
+
         LOGGER.info("SimpleRenderer finished");
+    }
+
+    private static CommandLine pareseCommandLine(String[] arguments) {
+        Options options = createCommandlineOptions();
+        DefaultParser parser = new DefaultParser();
+        try {
+            return parser.parse(options, arguments);
+        } catch (ParseException e) {
+            LOGGER.error(e.getMessage());
+            final HelpFormatter helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp(999, "java -jar SimpleRendere.jar", null, options, null, true);
+        }
+        return null;
+    }
+
+    private static Options createCommandlineOptions() {
+        final Options options = new Options();
+
+        options.addOption(Option.builder("s").longOpt("scene").hasArg().argName("scene file").required().build());
+
+        return options;
     }
 
 }

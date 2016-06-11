@@ -2,4 +2,5 @@
 
 logging:
   level:
-    org.springframwork: DEBUG
+#    org.springframework: DEBUG
+    ch.zweivelo: DEBUG

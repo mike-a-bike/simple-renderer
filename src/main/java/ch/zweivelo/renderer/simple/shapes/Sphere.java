@@ -36,9 +36,8 @@ public class Sphere extends AbstractShape {
     private final Vector3D center;
     private final double radius;
 
-
-    public Sphere(final Vector3D center, final double radius) {
-        super(Color.RED);
+    public Sphere(final Vector3D center, final double radius, Color color) {
+        super(color);
         this.center = center;
         this.radius = radius;
     }
@@ -64,4 +63,5 @@ public class Sphere extends AbstractShape {
     public String toString() {
         return String.format("Sphere{center=%s, radius=%s}", center, radius);
     }
+
 }

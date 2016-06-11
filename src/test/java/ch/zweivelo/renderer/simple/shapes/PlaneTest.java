@@ -17,6 +17,7 @@
 package ch.zweivelo.renderer.simple.shapes;
 
 import ch.zweivelo.renderer.simple.math.CollisionInformation;
+import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.math.Ray;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class PlaneTest {
 
     @Before
     public void setUp() throws Exception {
-        plane = new Plane(ZERO, PLUS_J);
+        plane = new Plane(ZERO, PLUS_J, Color.BLUE);
         ray = new Ray(PLUS_J, MINUS_J);
     }
 

@@ -34,8 +34,8 @@ public class Plane extends AbstractShape {
     private final Vector3D origin;
     private final Vector3D normal;
 
-    public Plane(final Vector3D origin, final Vector3D normal) {
-        super(Color.BLUE);
+    public Plane(final Vector3D origin, final Vector3D normal, Color color) {
+        super(color);
         this.origin = origin;
         this.normal = normal.normalize();
     }
@@ -45,10 +45,13 @@ public class Plane extends AbstractShape {
         double numerator = origin.subtract(ray.getOrigin()).dotProduct(normal);
         double denominator = ray.getDirection().dotProduct(normal);
 
+        // parallel to the plane
         if (denominator == 0d) {
+            // outside the plane -> not intersection
             if (numerator != 0d) {
                 return Optional.empty();
             }
+            // within the plane. take the closest intersection possible
             return Optional.of(ray.getInterval().getStart());
         }
 
