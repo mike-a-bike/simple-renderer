@@ -16,8 +16,6 @@
 
 package ch.zweivelo.renderer.simple.math;
 
-import org.apache.commons.math3.util.Pair;
-
 /**
  * Represent a value range.
  *

@@ -39,7 +39,6 @@ public class SimpleRenderer {
 
         LOGGER.info("Starting SimpleRenderer");
 
-
         LOGGER.info("SimpleRenderer finished");
     }
 
