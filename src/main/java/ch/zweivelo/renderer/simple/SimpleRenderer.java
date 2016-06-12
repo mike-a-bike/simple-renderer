@@ -20,7 +20,6 @@ import ch.zweivelo.renderer.simple.app.ApplicationConfiguration;
 import ch.zweivelo.renderer.simple.app.CommandlineParser;
 import ch.zweivelo.renderer.simple.app.GlobalStatistics;
 import ch.zweivelo.renderer.simple.app.SceneReader;
-import ch.zweivelo.renderer.simple.app.SceneReaderException;
 import ch.zweivelo.renderer.simple.core.Renderer;
 import ch.zweivelo.renderer.simple.core.Scene;
 
@@ -34,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -90,11 +88,11 @@ public class SimpleRenderer {
 
         try {
 
-            final Optional<ApplicationConfiguration> configuration = commandlineParser.parse(arguments);
+            final ApplicationConfiguration configuration = commandlineParser.parse(arguments).orElseThrow(() -> new RuntimeException("Unable to read configuration"));
 
-            final Scene scene = configuration.map(sceneReader::getScene).orElseThrow(() -> new SceneReaderException("Unable to read scene."));
+            final Scene scene = sceneReader.getScene(configuration);
 
-            renderer.render(configuration.get(), scene);
+            renderer.render(configuration, scene);
 
             LOGGER.info("Rendering {}", scene);
 
