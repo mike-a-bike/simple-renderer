@@ -16,6 +16,12 @@
 
 package ch.zweivelo.renderer.simple.spring;
 
+import ch.zweivelo.renderer.simple.app.CommandlineParser;
+import ch.zweivelo.renderer.simple.app.GlobalStatistics;
+import ch.zweivelo.renderer.simple.app.SceneReader;
+import ch.zweivelo.renderer.simple.app.YamlSceneReader;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -27,4 +33,20 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class SimpleRendererConfiguration {
+
+    @Bean
+    public CommandlineParser commandlineParser() {
+        return new CommandlineParser();
+    }
+
+    @Bean
+    public GlobalStatistics globalStatistics() {
+        return new GlobalStatistics();
+    }
+
+    @Bean
+    public SceneReader sceneReader() {
+        return new YamlSceneReader();
+    }
+
 }

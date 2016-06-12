@@ -19,6 +19,7 @@ package ch.zweivelo.renderer.simple.shapes;
 import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.math.Ray;
 import ch.zweivelo.renderer.simple.math.Solver;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.util.Optional;

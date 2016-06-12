@@ -17,6 +17,7 @@
 package ch.zweivelo.renderer.simple.cameras;
 
 import ch.zweivelo.renderer.simple.math.Ray;
+
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**

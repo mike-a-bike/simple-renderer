@@ -18,6 +18,7 @@ package ch.zweivelo.renderer.simple.shapes;
 
 import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Ray;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.junit.Before;
 import org.junit.Test;

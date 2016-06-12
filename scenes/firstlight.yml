@@ -1,3 +1,11 @@
+# First light scene
+#
+# - Sphere
+# - Plane
+# - PinholeCamers
+#
+
+---
 shapes:
 
   - sphere:
@@ -12,7 +20,7 @@ shapes:
         b: 0
 
   - plane:
-      position:
+      point:
         x: 0
         y: -1
         z: 0
@@ -53,3 +61,4 @@ cameras:
         x: 0
         y: 1
         z: 0
+...

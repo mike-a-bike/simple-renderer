@@ -17,6 +17,7 @@
 package ch.zweivelo.renderer.simple.math;
 
 import ch.zweivelo.renderer.simple.shapes.Shape;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**

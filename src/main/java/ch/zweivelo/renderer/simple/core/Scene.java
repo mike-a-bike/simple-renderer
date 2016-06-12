@@ -34,12 +34,12 @@ public class Scene {
 
     private final Collection<Light> lights;
 
-    private final Collection<Camera> camers;
+    private final Collection<Camera> cameras;
 
-    public Scene(Collection<Shape> shapes, Collection<Light> lights, Collection<Camera> camers) {
+    public Scene(Collection<Shape> shapes, Collection<Light> lights, Collection<Camera> cameras) {
         this.shapes = shapes;
         this.lights = lights;
-        this.camers = camers;
+        this.cameras = cameras;
     }
 
     public Collection<Shape> getShapes() {
@@ -50,7 +50,12 @@ public class Scene {
         return lights;
     }
 
-    public Collection<Camera> getCamers() {
-        return camers;
+    public Collection<Camera> getCameras() {
+        return cameras;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Scene: %d shapes, %d lights, %d cameras", shapes.size(), lights.size(), cameras.size());
     }
 }

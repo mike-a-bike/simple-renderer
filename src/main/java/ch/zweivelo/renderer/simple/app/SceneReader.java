@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Michael Bieri
+ * Copyright 2016 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.cameras;
+package ch.zweivelo.renderer.simple.app;
 
-import ch.zweivelo.renderer.simple.math.Ray;
-
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import ch.zweivelo.renderer.simple.core.Scene;
 
 /**
- * Camera interface
+ * Common interface shared by all SceneReader instances.
  *
- * @author <a href="mailto:m.bieri@gmx.net">Michael Bieri</a>
- * @version 0.1
- * @since 10.08.2015
+ * @author Michael Bieri
+ * @since 12.06.16
  */
-public interface Camera {
+public interface SceneReader {
 
-    Ray createRayFor(Vector2D uvPoint);
+    Scene getScene(ApplicationConfiguration configuration);
 
 }

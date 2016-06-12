@@ -19,6 +19,7 @@ package ch.zweivelo.renderer.simple.shapes;
 import ch.zweivelo.renderer.simple.math.CollisionInformation;
 import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.math.Ray;
+
 import org.junit.Before;
 import org.junit.Test;
 
