@@ -29,10 +29,10 @@
     <description>Concept project demonstrating basic rendering principles</description>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>LATEST</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>2.0.5.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <properties>
@@ -42,9 +42,12 @@
         <java.version>1.8</java.version>
 
         <!-- 3rd party library versions -->
-        <commons-math3.version>LATEST</commons-math3.version>
-        <commons-cli.version>LATEST</commons-cli.version>
-        <commons-io.version>LATEST</commons-io.version>
+        <spring-platform.version>2.0.5.RELEASE</spring-platform.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
+
+        <!-- Override Spring Platform versions -->
+        <commons-cli.version>1.3.1</commons-cli.version>
+
     </properties>
 
     <!-- dependency management -->
@@ -52,21 +55,17 @@
         <dependencies>
 
             <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring-platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-math3</artifactId>
                 <version>${commons-math3.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-cli</groupId>
-                <artifactId>commons-cli</artifactId>
-                <version>${commons-cli.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
             </dependency>
 
         </dependencies>
