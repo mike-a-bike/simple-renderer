@@ -20,6 +20,8 @@ import ch.zweivelo.renderer.simple.app.CommandlineParser;
 import ch.zweivelo.renderer.simple.app.GlobalStatistics;
 import ch.zweivelo.renderer.simple.app.SceneReader;
 import ch.zweivelo.renderer.simple.app.YamlSceneReader;
+import ch.zweivelo.renderer.simple.core.RayCaster;
+import ch.zweivelo.renderer.simple.core.Renderer;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +49,11 @@ public class SimpleRendererConfiguration {
     @Bean
     public SceneReader sceneReader() {
         return new YamlSceneReader();
+    }
+
+    @Bean
+    public Renderer renderer() {
+        return new RayCaster();
     }
 
 }

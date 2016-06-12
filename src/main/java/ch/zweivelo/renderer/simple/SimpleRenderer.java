@@ -21,6 +21,7 @@ import ch.zweivelo.renderer.simple.app.CommandlineParser;
 import ch.zweivelo.renderer.simple.app.GlobalStatistics;
 import ch.zweivelo.renderer.simple.app.SceneReader;
 import ch.zweivelo.renderer.simple.app.SceneReaderException;
+import ch.zweivelo.renderer.simple.core.Renderer;
 import ch.zweivelo.renderer.simple.core.Scene;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,9 @@ public class SimpleRenderer {
     @Autowired
     private SceneReader sceneReader;
 
+    @Autowired
+    private Renderer renderer;
+
     /**
      * Bootstrap method for the Spring Boot application.
      * @param arguments The commandline arguments
@@ -89,6 +93,8 @@ public class SimpleRenderer {
             final Optional<ApplicationConfiguration> configuration = commandlineParser.parse(arguments);
 
             final Scene scene = configuration.map(sceneReader::getScene).orElseThrow(() -> new SceneReaderException("Unable to read scene."));
+
+            renderer.render(configuration.get(), scene);
 
             LOGGER.info("Rendering {}", scene);
 
