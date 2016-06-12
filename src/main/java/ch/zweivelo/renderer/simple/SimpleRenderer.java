@@ -64,11 +64,15 @@ public class SimpleRenderer {
      */
     public static void main(String[] arguments) {
 
+        LOGGER.info("Starting SimpleRenderer");
+
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(SimpleRenderer.class, arguments);
 
         final SimpleRenderer simpleRenderer = applicationContext.getBean(SimpleRenderer.class);
 
         simpleRenderer.run(arguments);
+
+        LOGGER.info("SimpleRenderer finished");
 
     }
 
@@ -80,8 +84,6 @@ public class SimpleRenderer {
 
         statistics.setStart(Instant.now());
 
-        LOGGER.info("Starting SimpleRenderer");
-
         try {
 
             final Optional<ApplicationConfiguration> configuration = commandlineParser.parse(arguments);
@@ -90,11 +92,11 @@ public class SimpleRenderer {
 
             LOGGER.info("Rendering {}", scene);
 
-        } catch (Exception exception) {
-            LOGGER.error(format("Error during execution: %s%n", exception.getMessage()), exception);
-        }
+        } catch (Throwable throwable) {
 
-        LOGGER.info("SimpleRenderer finished");
+            LOGGER.error(format("Error during execution: %s%n", throwable.getMessage()), throwable);
+
+        }
 
         final Duration executionDuration = Duration.between(statistics.getStart(), Instant.now());
 

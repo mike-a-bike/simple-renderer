@@ -47,7 +47,7 @@ import java.util.Optional;
  * @see org.yaml.snakeyaml.Yaml
  * @since 12.06.16
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked") // much casting due to the nature of the YAML decoder
 public class YamlSceneReader implements SceneReader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(YamlSceneReader.class);
