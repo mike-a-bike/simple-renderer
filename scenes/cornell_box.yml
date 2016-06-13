@@ -1,0 +1,158 @@
+# =================================
+# Cornell Box type scene
+# =================================
+#
+# --------------------------------
+# - Open box to look into
+# - Two spheres
+# - Single overhead light source
+# --------------------------------
+#
+
+---
+
+# -----
+shapes:
+# -----
+
+  # ---
+  # BOX
+  # ---
+
+  # bottom
+  - plane:
+      point:
+        x: 0
+        y: -1
+        z: 0
+      normal:
+        x: 0
+        y: 1
+        z: 0
+      color:
+        r: .9
+        g: .9
+        b: .9
+
+  # top
+  - plane:
+      point:
+        x: 0
+        y: 1
+        z: 0
+      normal:
+        x: 0
+        y: -1
+        z: 0
+      color:
+        r: .9
+        g: .9
+        b: .9
+
+  # back
+  - plane:
+      point:
+        x: 0
+        y: 0
+        z: -1
+      normal:
+        x: 0
+        y: 0
+        z: 1
+      color:
+        r: .9
+        g: .9
+        b: .9
+
+  # left (red)
+  - plane:
+      point:
+        x: -1
+        y: 0
+        z: 0
+      normal:
+        x: 1
+        y: 0
+        z: 0
+      color:
+        r: .9
+        g: .05
+        b: .05
+
+  # right (green)
+  - plane:
+      point:
+        x: 1
+        y: 0
+        z: 0
+      normal:
+        x: -1
+        y: 0
+        z: 0
+      color:
+        r: .05
+        g: .9
+        b: .05
+
+
+  # -------
+  # SPHERES
+  # -------
+
+  - sphere:
+      center:
+        x: -.5
+        y: -.5
+        z: .5
+      radius: .25
+      color:
+        r: .9
+        g: .9
+        b: .9
+
+  - sphere:
+      center:
+        x: .25
+        y: .25
+        z: -.25
+      radius: .5
+      color:
+        r: .9
+        g: .9
+        b: .9
+
+# -----
+lights:
+# -----
+
+  - pointlight:
+      position:
+        x: 0
+        y: .95
+        z: 0
+      color:
+        r: .95
+        g: .95
+        b: .95
+      intensity: 5
+
+# ------
+cameras:
+# ------
+
+  - pinhole:
+      position:
+        x: 0
+        y: .5
+        z: 5
+      lookat:
+        x: 0
+        y: -.95
+        z: 0
+      up:
+        x: 0
+        y: 1
+        z: 0
+      fov: 45
+
+...
