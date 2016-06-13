@@ -16,7 +16,9 @@
 
 package ch.zweivelo.renderer.simple.math;
 
+import static java.lang.Double.MAX_VALUE;
 import static org.apache.commons.math3.util.FastMath.PI;
+import static org.apache.commons.math3.util.FastMath.signum;
 
 /**
  * Collection of useful constants.
@@ -31,11 +33,14 @@ public abstract class MathUtils {
 
     private static final double SMALL_ESPILON = EPSILON / 10d;
 
-    public static final double EPSIPON_MAX = 1 / EPSILON;
+    static final double LARGE_VALUE = MAX_VALUE;
 
     public static final double TWO_PI = PI * 2d;
 
     public static final double INV_PI = 1d / PI;
+
+    private MathUtils() {
+    }
 
     /**
      * Check if value is zero with a tolerance of {@value #SMALL_ESPILON}
@@ -43,8 +48,30 @@ public abstract class MathUtils {
      * @param value The value to check
      * @return true if {@value #SMALL_ESPILON} <= value <= {@value #SMALL_ESPILON}, false otherwise
      */
-    public static boolean isZero(double value) {
+    static boolean isZero(final double value) {
         return -SMALL_ESPILON <= value && value <= SMALL_ESPILON;
     }
 
+    /**
+     * Safe division of two numerical values. If {@code b} is zero, then {@link #LARGE_VALUE} is returned.
+     * The signs are maintained. This method never throws a dividing by zero exception. Since this application
+     * solves approximated numerical problems, this is preferred over the division by zero error.
+     *
+     * @param a The numerator
+     * @param b The denominator
+     * @return a / b if b is not zero, {@link #LARGE_VALUE} otherwise.
+     */
+    static double div(final double a, final double b) {
+        if (a == 0) {
+            return 0;
+        }
+        if (b == 0) {
+            return LARGE_VALUE * signum(a);
+        }
+        if ((a + b) == a) {
+            return LARGE_VALUE * signum(a) * signum(b);
+        }
+
+        return a / b;
+    }
 }

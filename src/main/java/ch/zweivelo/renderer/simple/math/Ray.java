@@ -34,7 +34,6 @@ public class Ray {
 
     private final DoubleRange interval;
 
-
     public Ray(final Vector3D origin, final Vector3D direction, final DoubleRange interval) {
         this.origin = origin;
         this.direction = direction;
@@ -42,7 +41,7 @@ public class Ray {
     }
 
     public Ray(final Vector3D origin, final Vector3D direction) {
-        this(origin, direction, new DoubleRange(MathUtils.EPSILON, MathUtils.EPSIPON_MAX));
+        this(origin, direction, new DoubleRange(MathUtils.EPSILON, MathUtils.LARGE_VALUE));
     }
 
     public Vector3D getOrigin() {

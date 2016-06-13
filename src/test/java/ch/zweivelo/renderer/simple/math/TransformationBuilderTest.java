@@ -18,7 +18,9 @@ package ch.zweivelo.renderer.simple.math;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -33,6 +35,9 @@ import static org.junit.Assert.assertThat;
  * @since 13.06.2016
  */
 public class TransformationBuilderTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void scaleUVPoint() {
@@ -50,8 +55,8 @@ public class TransformationBuilderTest {
     @Test
     public void scale3DVector() {
 
-        Vector3D vector = new Vector3D(1, 1, 1);
-        Transformation scale3D = TransformationBuilder.scale(2, 3, 4);
+        final Vector3D vector = new Vector3D(1, 1, 1);
+        final Transformation scale3D = TransformationBuilder.scale(2, 3, 4);
         final Vector3D transformedVector = scale3D.applyToVector(vector);
 
         assertThat(transformedVector, is(not(nullValue())));
@@ -62,10 +67,30 @@ public class TransformationBuilderTest {
     }
 
     @Test
+    public void scale3DVectorWithZero() {
+        final Vector3D vector = new Vector3D(1, 1, 1);
+        final Transformation scale3D = TransformationBuilder.scale(0d, 0d, 0d);
+        final Vector3D scaledVector = scale3D.applyToVector(vector);
+        final Vector3D inverseVectorResult = scale3D.getInverse().applyToVector(vector);
+
+        assertThat(scaledVector, is(not(nullValue())));
+        assertThat(scaledVector.getX(), is(0d));
+        assertThat(scaledVector.getY(), is(0d));
+        assertThat(scaledVector.getZ(), is(0d));
+
+        // no division by zero exception
+        assertThat(inverseVectorResult, is(not(nullValue())));
+        assertThat(inverseVectorResult.getX(), is(Double.MAX_VALUE));
+        assertThat(inverseVectorResult.getY(), is(Double.MAX_VALUE));
+        assertThat(inverseVectorResult.getZ(), is(Double.MAX_VALUE));
+
+    }
+
+    @Test
     public void translateUVPoint() {
 
-        Vector2D uvVector = new Vector2D(1, 1);
-        Transformation translate2D = TransformationBuilder.translate(1, 2);
+        final Vector2D uvVector = new Vector2D(1, 1);
+        final Transformation translate2D = TransformationBuilder.translate(1, 2);
         final Vector2D translatedVector = translate2D.applyToUVPoint(uvVector);
 
         assertThat(translatedVector, is(not(nullValue())));
@@ -77,7 +102,7 @@ public class TransformationBuilderTest {
     @Test
     public void translate3DVector() {
 
-        Vector3D vector = new Vector3D(1, 1, 1);
+        final Vector3D vector = new Vector3D(1, 1, 1);
         final Transformation translate = TransformationBuilder.translate(1, 2, 3);
         final Vector3D translatedVector = translate.applyToVector(vector);
 
@@ -92,7 +117,7 @@ public class TransformationBuilderTest {
     @Test
     public void translate3DPoint() {
 
-        Vector3D point = new Vector3D(1, 1, 1);
+        final Vector3D point = new Vector3D(1, 1, 1);
         final Transformation translate = TransformationBuilder.translate(1, 2, 3);
         final Vector3D translatedPoint = translate.applyToPoint(point);
 

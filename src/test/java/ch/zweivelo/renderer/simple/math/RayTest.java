@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static ch.zweivelo.renderer.simple.math.MathUtils.EPSILON;
-import static ch.zweivelo.renderer.simple.math.MathUtils.EPSIPON_MAX;
+import static ch.zweivelo.renderer.simple.math.MathUtils.LARGE_VALUE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +39,7 @@ public class RayTest {
 
     @Before
     public void prepareTest() {
-        ray = new Ray(Vector3D.ZERO, Vector3D.PLUS_I, new DoubleRange(EPSILON, EPSIPON_MAX));
+        ray = new Ray(Vector3D.ZERO, Vector3D.PLUS_I, new DoubleRange(EPSILON, LARGE_VALUE));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class RayTest {
         assertTrue(ray.isValidT(10d));
         assertTrue(ray.isValidT(100d));
         assertTrue(ray.isValidT(1000d));
-        assertTrue(ray.isValidT(EPSIPON_MAX));
+        assertTrue(ray.isValidT(LARGE_VALUE));
 
         assertFalse(ray.isValidT(0d));
         assertFalse(ray.isValidT(-1d));

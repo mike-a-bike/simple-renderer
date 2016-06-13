@@ -22,9 +22,10 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toRadians;
+import static ch.zweivelo.renderer.simple.math.MathUtils.div;
+import static org.apache.commons.math3.util.FastMath.cos;
+import static org.apache.commons.math3.util.FastMath.sin;
+import static org.apache.commons.math3.util.FastMath.toRadians;
 
 /**
  * Builder for affine transformations.
@@ -48,9 +49,9 @@ public class TransformationBuilder {
         }, false);
 
         final Array2DRowRealMatrix inverseScaleMatrix = new Array2DRowRealMatrix(new double[][]{
-            {1d / sx, 0, 0, 0},
-            {0, 1d / sy, 0, 0},
-            {0, 0, 1d / sz, 0},
+            {div(1d, sx), 0, 0, 0},
+            {0, div(1d, sy), 0, 0},
+            {0, 0, div(1d, sz), 0},
             {0, 0, 0, 1}
         }, false);
 
@@ -209,7 +210,7 @@ public class TransformationBuilder {
         public Vector3D applyToPoint(final Vector3D point) {
             RealMatrix homogeneousPoint = new Array2DRowRealMatrix(new double[]{point.getX(), point.getY(), point.getZ(), 1d});
             final RealMatrix transformedPoint = transformationMatrix.multiply(homogeneousPoint);
-            final RealMatrix scalarMultiply = transformedPoint.scalarMultiply(1d / transformedPoint.getEntry(3, 0));
+            final RealMatrix scalarMultiply = transformedPoint.scalarMultiply(div(1d, transformedPoint.getEntry(3, 0)));
             return createVector3DFromColumnMatrix(scalarMultiply);
         }
 
