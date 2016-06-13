@@ -17,6 +17,8 @@
 package ch.zweivelo.renderer.simple.cameras;
 
 import ch.zweivelo.renderer.simple.math.Ray;
+import ch.zweivelo.renderer.simple.math.Transformation;
+import ch.zweivelo.renderer.simple.math.TransformationBuilder;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -33,9 +35,13 @@ import java.util.stream.Stream;
 public class PinholeCamera implements Camera {
 
     private final Vector3D position;
+    private final double fov;
+    private final Transformation cameraToWorld;
 
-    public PinholeCamera(final Vector3D position, final Vector3D up, final Vector3D lookat) {
+    public PinholeCamera(final Vector3D position, final Vector3D lookat, final Vector3D up, final double fov) {
         this.position = position;
+        this.fov = fov;
+        cameraToWorld = TransformationBuilder.lookAt(position, lookat, up).getInverse();
     }
 
     @Override

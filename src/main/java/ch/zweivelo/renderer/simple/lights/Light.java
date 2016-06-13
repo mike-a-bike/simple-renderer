@@ -23,4 +23,10 @@ package ch.zweivelo.renderer.simple.lights;
  * @since 12.06.16
  */
 public interface Light {
+
+    /**
+     * @return {@code true} if the lightsource has no physical size, {@code false} otherwise.
+     */
+    boolean isDelta();
+
 }

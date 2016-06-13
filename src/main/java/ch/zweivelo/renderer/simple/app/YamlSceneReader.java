@@ -17,8 +17,10 @@
 package ch.zweivelo.renderer.simple.app;
 
 import ch.zweivelo.renderer.simple.cameras.Camera;
+import ch.zweivelo.renderer.simple.cameras.PinholeCamera;
 import ch.zweivelo.renderer.simple.core.Scene;
 import ch.zweivelo.renderer.simple.lights.Light;
+import ch.zweivelo.renderer.simple.lights.Pointlight;
 import ch.zweivelo.renderer.simple.math.Color;
 import ch.zweivelo.renderer.simple.shapes.Plane;
 import ch.zweivelo.renderer.simple.shapes.Shape;
@@ -35,7 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,7 +48,7 @@ import java.util.Optional;
  * @see org.yaml.snakeyaml.Yaml
  * @since 12.06.16
  */
-@SuppressWarnings("unchecked") // much casting due to the nature of the YAML decoder
+@SuppressWarnings("unchecked") // much casting due to the nature of the untyped YAML decoder
 public class YamlSceneReader implements SceneReader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(YamlSceneReader.class);
@@ -58,6 +59,10 @@ public class YamlSceneReader implements SceneReader {
 
     private static final String SPHERE_KEY = "sphere";
     private static final String PLANE_KEY = "plane";
+
+    private static final String POINTLIGHT_KEY = "pointlight";
+
+    private static final String PINHOLE_CAMERA_KEY = "pinhole";
 
     @Override
     public Scene getScene(ApplicationConfiguration configuration) {
@@ -163,11 +168,55 @@ public class YamlSceneReader implements SceneReader {
     }
 
     private Collection<Light> decodeLights(List<Map<String, Object>> lightsMap) {
-        return Collections.emptyList();
+        final List<Light> lights = new ArrayList<>();
+
+        for (Map<String, Object> lightWrapperMap : lightsMap) {
+            if (lightWrapperMap.size() != 1) {
+                throw new SceneReaderException("Invalid light description: " + lightWrapperMap.toString());
+            }
+            final Map.Entry<String, Object> lightMapEntry = lightWrapperMap.entrySet().iterator().next();
+
+            final String lightName = lightMapEntry.getKey();
+            final Light light;
+            switch(lightName) {
+                case POINTLIGHT_KEY:
+                    light = decodePointlight((Map<String, Object>) lightMapEntry.getValue());
+                    break;
+
+                default:
+                    throw new SceneReaderException("Unknown light found: " + lightName);
+            }
+
+            lights.add(light);
+        }
+
+        return lights;
     }
 
     private Collection<Camera> decodeCameras(List<Map<String, Object>> camerasMap) {
-        return Collections.emptyList();
+        final List<Camera> cameras = new ArrayList<>();
+
+        for (Map<String, Object> cameraWrapperMap : camerasMap) {
+            if (cameraWrapperMap.size() != 1) {
+                throw new SceneReaderException("Invalid camera description: " + cameraWrapperMap.toString());
+            }
+            final Map.Entry<String, Object> cameraMapEntry = cameraWrapperMap.entrySet().iterator().next();
+
+            final String cameraName = cameraMapEntry.getKey();
+            final Camera camera;
+            switch(cameraName) {
+                case PINHOLE_CAMERA_KEY:
+                    camera = decodePinhole((Map<String, Object>) cameraMapEntry.getValue());
+                    break;
+
+                default:
+                    throw new SceneReaderException("Unknown light found: " + cameraName);
+            }
+
+            cameras.add(camera);
+        }
+
+        return cameras;
     }
 
     private Sphere decodeSphere(Map<String, Object> sphereMap) {
@@ -184,6 +233,23 @@ public class YamlSceneReader implements SceneReader {
         Color color = decodeColor((Map<String, Number>) planeMap.get("color"));
 
         return new Plane(point, normal, color);
+    }
+
+    private Light decodePointlight(Map<String, Object> pointlightMap) {
+        Vector3D position = decodeVector3D((Map<String, Number>) pointlightMap.get("position"));
+        Color color = decodeColor((Map<String, Number>) pointlightMap.get("color"));
+        double intensity = ((Number) pointlightMap.get("intensity")).doubleValue();
+
+        return new Pointlight(position, color, intensity);
+    }
+
+    private Camera decodePinhole(Map<String, Object> pinholeMap) {
+        Vector3D position = decodeVector3D((Map<String, Number>) pinholeMap.get("position"));
+        Vector3D lookat = decodeVector3D((Map<String, Number>) pinholeMap.get("lookat"));
+        Vector3D up = decodeVector3D((Map<String, Number>) pinholeMap.get("up"));
+        double fov = ((Number) pinholeMap.get("fov")).doubleValue();
+
+        return new PinholeCamera(position, lookat, up, fov);
     }
 
     private Vector3D decodeVector3D(Map<String, Number> vectorValues) {
