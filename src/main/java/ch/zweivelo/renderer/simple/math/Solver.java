@@ -20,7 +20,7 @@ import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
-import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import static ch.zweivelo.renderer.simple.math.MathUtils.isZero;
 import static org.apache.commons.math3.util.FastMath.PI;
@@ -48,7 +48,7 @@ public enum Solver {
          * @param c Coefficients: c[0], c[1]
          */
         @Override
-        public DoubleStream solve(final double... c) {
+        public Stream<Double> solve(final double... c) {
             if (c.length != 2) {
                 throw new InsufficientDataException();
             }
@@ -59,7 +59,7 @@ public enum Solver {
                         c[1]);
             }
 
-            return DoubleStream.of(-c[0] / c[1]);
+            return Stream.of(-c[0] / c[1]);
         }
     },
 
@@ -69,7 +69,7 @@ public enum Solver {
          * @param c Coefficients: c[0], c[1], c[2]
          */
         @Override
-        public DoubleStream solve(final double... c) {
+        public Stream<Double> solve(final double... c) {
             switch (c.length) {
                 case 3:
                     break;
@@ -90,13 +90,13 @@ public enum Solver {
             double D = p * p - q;
 
             if (isZero(D)) {
-                return DoubleStream.of(-p);
+                return Stream.of(-p);
             } else if (D < 0) {
-                return DoubleStream.empty();
+                return Stream.empty();
             }
 
             double sqrtD = sqrt(D);
-            return DoubleStream.of(sqrtD - p, -sqrtD - p);
+            return Stream.of(sqrtD - p, -sqrtD - p).sorted(Double::compare);
         }
     },
 
@@ -106,7 +106,7 @@ public enum Solver {
          * @param c Coefficients: c[0], c[1], c[2], c[3]
          */
         @Override
-        public DoubleStream solve(final double... c) {
+        public Stream<Double> solve(final double... c) {
             switch (c.length) {
                 case 4:
                     break;
@@ -120,7 +120,7 @@ public enum Solver {
                 return QUADRATIC.solve(c[0], c[1], c[2]);
             }
 
-            DoubleStream solutions;
+            Stream<Double> solutions;
 
             /* normal form: x^3 + Ax^2 + Bx + C = 0 */
 
@@ -143,13 +143,13 @@ public enum Solver {
                 if (isZero(q)) {
                     /* one triple solution */
 
-                    solutions = DoubleStream.of(0d);
+                    solutions = Stream.of(0d);
 
                 } else {
                     /* one single and one double solution */
 
                     double u = cbrt(-q);
-                    solutions = DoubleStream.of(2 * u, -u);
+                    solutions = Stream.of(2 * u, -u);
 
                 }
 
@@ -159,7 +159,7 @@ public enum Solver {
                 double phi = 1d / 3d * acos(-q / sqrt(-cubeP));
                 double t = 2 * sqrt(-p);
 
-                solutions = DoubleStream.of(
+                solutions = Stream.of(
                         t * cos(phi),
                         -t * cos(phi + PI / 3d),
                         -t * cos(phi - PI / 3d)
@@ -172,13 +172,13 @@ public enum Solver {
                 double u = cbrt(sqrtD - q);
                 double v = -cbrt(sqrtD + q);
 
-                solutions = DoubleStream.of(u + v);
+                solutions = Stream.of(u + v);
             }
 
             /* resubstitute */
             double sub = 1d / 3d * A;
 
-            return solutions.map(solution -> solution - sub);
+            return solutions.map(solution -> solution - sub).sorted(Double::compare);
         }
     },
 
@@ -188,7 +188,7 @@ public enum Solver {
          * @param c Coefficients: c[0], c[1], c[2], c[3], c[4]
          */
         @Override
-        public DoubleStream solve(final double... c) {
+        public Stream<Double> solve(final double... c) {
             switch (c.length) {
                 case 5:
                     break;
@@ -202,7 +202,7 @@ public enum Solver {
                 return CUBIC.solve(c[0], c[1], c[2], c[3]);
             }
 
-            DoubleStream solutions;
+            Stream<Double> solutions;
 
             /* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */
             double A = c[3] / c[4];
@@ -220,12 +220,12 @@ public enum Solver {
 
                 /* no absolute term: y(y^3 + py +q) = 0 */
                 solutions = CUBIC.solve(q, p, 0, q);
-                solutions = DoubleStream.concat(solutions, DoubleStream.of(0d));
+                solutions = Stream.concat(solutions, Stream.of(0d));
 
             } else {
 
                 /* solve the resolvent cubic ... */
-                DoubleStream cubicSolution = CUBIC.solve(
+                Stream<Double> cubicSolution = CUBIC.solve(
                         1d / 2d * r * p - 1d / 8d * q * q,
                         -r,
                         -1d / 2d * p,
@@ -233,7 +233,7 @@ public enum Solver {
                 );
 
                 /* ... and take the one real solution ... */
-                double z = cubicSolution.findFirst().getAsDouble();
+                double z = cubicSolution.findFirst().get();
 
                 /* ... to build two quadric equations */
                 double u = z * z - r;
@@ -245,10 +245,10 @@ public enum Solver {
                     u = sqrt(u);
                 } else {
                     /* no real solutions */
-                    return DoubleStream.empty();
+                    return Stream.empty();
                 }
 
-                solutions = DoubleStream.concat(
+                solutions = Stream.concat(
                         QUADRATIC.solve(
                                 z - u,
                                 q < 0 ? -v : v,
@@ -266,7 +266,7 @@ public enum Solver {
             /* resubstitute */
             double sub = 1d / 4d * A;
 
-            return solutions.map(solution -> solution - sub);
+            return solutions.map(solution -> solution - sub).sorted(Double::compare);
         }
     };
 
@@ -274,6 +274,6 @@ public enum Solver {
      * @param c Coefficients
      * @return A stream of real solutions
      */
-    public abstract DoubleStream solve(double... c);
+    public abstract Stream<Double> solve(double... c);
 
 }

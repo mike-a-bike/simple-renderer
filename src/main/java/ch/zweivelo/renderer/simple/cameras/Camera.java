@@ -20,6 +20,8 @@ import ch.zweivelo.renderer.simple.math.Ray;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import java.util.stream.Stream;
+
 /**
  * Camera interface
  *
@@ -29,6 +31,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
  */
 public interface Camera {
 
-    Ray createRayFor(Vector2D uvPoint);
+    Stream<Ray> createRaysFor(Vector2D uvPoint);
 
 }

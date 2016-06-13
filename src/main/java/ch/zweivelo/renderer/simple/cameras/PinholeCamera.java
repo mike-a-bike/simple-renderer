@@ -18,7 +18,10 @@ package ch.zweivelo.renderer.simple.cameras;
 
 import ch.zweivelo.renderer.simple.math.Ray;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+
+import java.util.stream.Stream;
 
 /**
  * Mathematical model of a perfect pinhole camera.
@@ -29,10 +32,16 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
  */
 public class PinholeCamera implements Camera {
 
+    private final Vector3D position;
+
+    public PinholeCamera(final Vector3D position, final Vector3D up, final Vector3D lookat) {
+        this.position = position;
+    }
+
     @Override
-    public Ray createRayFor(final Vector2D uvPoint) {
+    public Stream<Ray> createRaysFor(final Vector2D uvPoint) {
         Vector2D transformedUV = uvPoint.subtract(new Vector2D(.5d, .5d));
-        return null;
+        return Stream.empty();
     }
 
 }

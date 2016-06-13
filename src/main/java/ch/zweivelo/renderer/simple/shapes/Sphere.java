@@ -23,7 +23,6 @@ import ch.zweivelo.renderer.simple.math.Solver;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.util.Optional;
-import java.util.OptionalDouble;
 
 /**
  * Sphere representation characterized by its location and a radius.
@@ -48,16 +47,12 @@ public class Sphere extends AbstractShape {
         Vector3D dir = ray.getDirection();
         Vector3D tmp = ray.getOrigin().subtract(center);
 
-        OptionalDouble min = Solver.QUADRATIC.solve(
+        return Solver.QUADRATIC.solve(
                 tmp.dotProduct(tmp) - radius * radius,
                 2 * dir.dotProduct(tmp),
-                dir.dotProduct(dir)).min();
-
-        if (min.isPresent()) {
-            return Optional.of(min.getAsDouble());
-        }
-
-        return Optional.empty();
+                dir.dotProduct(dir))
+                .filter(ray::isValidT)
+                .findFirst();
     }
 
     @Override

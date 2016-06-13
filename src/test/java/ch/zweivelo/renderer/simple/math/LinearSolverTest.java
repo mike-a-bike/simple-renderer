@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.List;
-import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import static ch.zweivelo.renderer.simple.math.MathUtils.EPSILON;
 import static ch.zweivelo.renderer.simple.math.Solver.LINEAR;
@@ -57,9 +57,9 @@ public class LinearSolverTest {
 
     @Test
     public void testSolveLinear() throws Exception {
-        DoubleStream solutions = LINEAR.solve(2d, 1d);
+        Stream<Double> solutions = LINEAR.solve(2d, 1d);
         assertNotNull(solutions);
-        List<Double> solutionsList = solutions.mapToObj(d -> d).collect(toList());
+        List<Double> solutionsList = solutions.collect(toList());
         assertEquals(1l, solutionsList.size());
         assertEquals(solutionsList.get(0), -2d, EPSILON);
     }
