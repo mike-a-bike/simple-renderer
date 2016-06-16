@@ -20,6 +20,8 @@ import ch.zweivelo.renderer.simple.cameras.Camera;
 import ch.zweivelo.renderer.simple.lights.Light;
 import ch.zweivelo.renderer.simple.shapes.Shape;
 
+import lombok.Value;
+
 import java.util.Collection;
 
 /**
@@ -28,31 +30,12 @@ import java.util.Collection;
  * @author Michael Bieri
  * @since 12.06.16
  */
+@Value
 public class Scene {
 
     private final Collection<Shape> shapes;
-
     private final Collection<Light> lights;
-
     private final Collection<Camera> cameras;
-
-    public Scene(Collection<Shape> shapes, Collection<Light> lights, Collection<Camera> cameras) {
-        this.shapes = shapes;
-        this.lights = lights;
-        this.cameras = cameras;
-    }
-
-    public Collection<Shape> getShapes() {
-        return shapes;
-    }
-
-    public Collection<Light> getLights() {
-        return lights;
-    }
-
-    public Collection<Camera> getCameras() {
-        return cameras;
-    }
 
     @Override
     public String toString() {

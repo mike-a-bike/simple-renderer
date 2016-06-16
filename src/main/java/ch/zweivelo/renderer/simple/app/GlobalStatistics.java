@@ -16,6 +16,9 @@
 
 package ch.zweivelo.renderer.simple.app;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.Instant;
 
 /**
@@ -25,16 +28,10 @@ import java.time.Instant;
  * @since 12.06.16
  */
 
+@Getter
+@Setter
 public class GlobalStatistics {
 
     private Instant start;
-
-    public Instant getStart() {
-        return start;
-    }
-
-    public void setStart(Instant start) {
-        this.start = start;
-    }
 
 }
