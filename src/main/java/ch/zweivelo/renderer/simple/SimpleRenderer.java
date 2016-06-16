@@ -28,8 +28,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -43,10 +42,10 @@ import static java.lang.String.format;
  * @version 0.1
  * @since 30.07.2015
  */
+
+@Slf4j
 @SpringBootApplication
 public class SimpleRenderer {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleRenderer.class);
 
     @Autowired
     private CommandlineParser commandlineParser;
@@ -66,15 +65,13 @@ public class SimpleRenderer {
      */
     public static void main(String[] arguments) {
 
-        LOGGER.info("Starting SimpleRenderer");
-
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(SimpleRenderer.class, arguments);
 
         final SimpleRenderer simpleRenderer = applicationContext.getBean(SimpleRenderer.class);
 
         simpleRenderer.run(arguments);
 
-        LOGGER.info("SimpleRenderer finished");
+        log.info("SimpleRenderer finished");
 
     }
 
@@ -94,17 +91,17 @@ public class SimpleRenderer {
 
             renderer.render(configuration, scene);
 
-            LOGGER.info("Rendering {}", scene);
+            log.info("Rendering {}", scene);
 
         } catch (Throwable throwable) {
 
-            LOGGER.error(format("Error during execution: %s%n", throwable.getMessage()), throwable);
+            log.error(format("Error during execution: %s%n", throwable.getMessage()), throwable);
 
         }
 
         final Duration executionDuration = Duration.between(statistics.getStart(), Instant.now());
 
-        LOGGER.info("Execution took {}ms", executionDuration.getNano() / 1_000_000);
+        log.info("Execution took {}ms", executionDuration.getNano() / 1_000_000);
 
     }
 

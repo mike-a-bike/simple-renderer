@@ -18,6 +18,7 @@ package ch.zweivelo.renderer.simple.math;
 
 import ch.zweivelo.renderer.simple.shapes.Shape;
 
+import lombok.Value;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -27,33 +28,13 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * @version 0.1
  * @since 03.08.2015
  */
+
+@Value(staticConstructor = "from")
 public class CollisionInformation {
 
     private final double distance;
-    private final Vector3D point;
     private final Shape shape;
+    private final Vector3D point;
     private final Color color;
 
-    public CollisionInformation(final double distance, final Shape shape, final Vector3D point, final Color color) {
-        this.distance = distance;
-        this.shape = shape;
-        this.point = point;
-        this.color = color;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    public Vector3D getPoint() {
-        return point;
-    }
-
-    public Color getColor() {
-        return color;
-    }
 }

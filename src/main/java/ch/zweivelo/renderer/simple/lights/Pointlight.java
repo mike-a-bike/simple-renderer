@@ -18,6 +18,8 @@ package ch.zweivelo.renderer.simple.lights;
 
 import ch.zweivelo.renderer.simple.math.Color;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -28,17 +30,14 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * @version 0.1
  * @since 13.06.2016
  */
+
+@Getter
+@AllArgsConstructor
 public class Pointlight implements Light {
 
     private final Vector3D position;
     private final Color color;
     private final double intensity;
-
-    public Pointlight(final Vector3D position, final Color color, final double intensity) {
-        this.position = position;
-        this.color = color;
-        this.intensity = intensity;
-    }
 
     @Override
     public boolean isDelta() {

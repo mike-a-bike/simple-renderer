@@ -16,14 +16,13 @@
 
 package ch.zweivelo.renderer.simple.app;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -33,12 +32,14 @@ import java.util.Optional;
  * @author Michael Bieri
  * @since 12.06.16
  */
-public class CommandlineParser {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandlineParser.class);
+@Slf4j
+public class CommandlineParser {
 
     private static final String DEFAULT_IMAGE_NAME = "image.png";
     private static final String DEFAULT_FORMAT = "PNG";
+    private static final String DEFAULT_WIDTH = "640";
+    private static final String DEFAULT_HEIGHT = "480";
 
     public Optional<ApplicationConfiguration> parse(String[] arguments) {
 
@@ -46,7 +47,9 @@ public class CommandlineParser {
             final String sceneName = commandLine.getOptionValue("s");
             final String imageName = commandLine.getOptionValue("o", DEFAULT_IMAGE_NAME);
             final String format = commandLine.getOptionValue("f", DEFAULT_FORMAT);
-            return new ApplicationConfiguration(sceneName, imageName, format);
+            final int width = Integer.parseInt(commandLine.getOptionValue("w", DEFAULT_WIDTH));
+            final int height = Integer.parseInt(commandLine.getOptionValue("h", DEFAULT_HEIGHT));
+            return ApplicationConfiguration.from(sceneName, width, height, imageName, format);
         });
 
     }
@@ -57,7 +60,7 @@ public class CommandlineParser {
         try {
             return Optional.of(parser.parse(options, arguments));
         } catch (ParseException e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
             final HelpFormatter helpFormatter = new HelpFormatter();
             helpFormatter.printHelp(999, "java -jar simple-renderer-<version>.jar", null, options, null, true);
         }
@@ -68,6 +71,8 @@ public class CommandlineParser {
         final Options options = new Options();
 
         options.addOption(Option.builder("s").longOpt("scene").hasArg().argName("scene file").required().build());
+        options.addOption(Option.builder("w").longOpt("width").hasArg().argName("width in pixel").required(false).build());
+        options.addOption(Option.builder("h").longOpt("height").hasArg().argName("height in pixel").required(false).build());
         options.addOption(Option.builder("o").longOpt("image").hasArg().argName("output file").required(false).build());
         options.addOption(Option.builder("f").longOpt("format").hasArg().argName("format: PNG,JPG,EXR").required(false).build());
 

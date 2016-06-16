@@ -35,7 +35,7 @@ public interface Shape {
 
     default Optional<CollisionInformation> intersect(final Ray ray) {
         return calculateIntersectionDistance(ray).map(
-                distance -> new CollisionInformation(
+                distance -> CollisionInformation.from(
                         distance,
                         this,
                         ray.calculatePoint(distance),

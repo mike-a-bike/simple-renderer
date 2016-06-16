@@ -41,7 +41,7 @@ public class Ray {
     }
 
     public Ray(final Vector3D origin, final Vector3D direction) {
-        this(origin, direction, new DoubleRange(MathUtils.EPSILON, MathUtils.LARGE_VALUE));
+        this(origin, direction, DoubleRange.from(MathUtils.EPSILON, MathUtils.LARGE_VALUE));
     }
 
     public Vector3D getOrigin() {

@@ -26,10 +26,9 @@ import ch.zweivelo.renderer.simple.shapes.Plane;
 import ch.zweivelo.renderer.simple.shapes.Shape;
 import ch.zweivelo.renderer.simple.shapes.Sphere;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -48,10 +47,9 @@ import java.util.Optional;
  * @see org.yaml.snakeyaml.Yaml
  * @since 12.06.16
  */
+@Slf4j
 @SuppressWarnings("unchecked") // much casting due to the nature of the untyped YAML decoder
 public class YamlSceneReader implements SceneReader {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(YamlSceneReader.class);
 
     private static final String SHAPES_KEY = "shapes";
     private static final String LIGHTS_KEY = "lights";
@@ -82,15 +80,15 @@ public class YamlSceneReader implements SceneReader {
 
             Yaml yaml = new Yaml();
 
-            LOGGER.info("Loading scene: " + sceneName);
+            log.info("Loading scene: " + sceneName);
 
             //noinspection unchecked -> untyped object created by the YAML reader
             sceneMap = Optional.of((Map<String, Object>) yaml.load(yamlStream));
 
-            LOGGER.debug("Loaded scene: " + sceneMap);
+            log.debug("Loaded scene: " + sceneMap);
 
         } catch (IOException exception) {
-            LOGGER.error("Error reading scene file: " + exception.getMessage(), exception);
+            log.error("Error reading scene file: " + exception.getMessage(), exception);
             sceneMap = Optional.empty();
         }
 

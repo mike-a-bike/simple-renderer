@@ -39,7 +39,7 @@ public class RayTest {
 
     @Before
     public void prepareTest() {
-        ray = new Ray(Vector3D.ZERO, Vector3D.PLUS_I, new DoubleRange(EPSILON, LARGE_VALUE));
+        ray = new Ray(Vector3D.ZERO, Vector3D.PLUS_I, DoubleRange.from(EPSILON, LARGE_VALUE));
     }
 
     @Test

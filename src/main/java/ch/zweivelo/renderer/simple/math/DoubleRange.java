@@ -16,6 +16,8 @@
 
 package ch.zweivelo.renderer.simple.math;
 
+import lombok.Value;
+
 /**
  * Represent a value range.
  *
@@ -23,25 +25,15 @@ package ch.zweivelo.renderer.simple.math;
  * @version 0.1
  * @since 03.08.2015
  */
+
+@Value(staticConstructor = "from")
 public class DoubleRange {
 
     private final double start;
     private final double end;
 
-    public DoubleRange(double start, double end) {
-        this.start = start;
-        this.end = end;
-    }
-
     public boolean inRange(double value) {
         return start <= value && value <= end;
     }
 
-    public double getStart() {
-        return start;
-    }
-
-    public double getEnd() {
-        return end;
-    }
 }

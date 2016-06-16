@@ -16,7 +16,7 @@
 
 package ch.zweivelo.renderer.simple.app;
 
-import ch.zweivelo.renderer.simple.core.Scene;
+import lombok.Value;
 
 /**
  * Settings object containing the result of the commandline parsing.
@@ -24,37 +24,14 @@ import ch.zweivelo.renderer.simple.core.Scene;
  * @author Michael Bieri
  * @since 12.06.16
  */
+
+@Value(staticConstructor = "from")
 public class ApplicationConfiguration {
 
     private final String sceneName;
+    private final int width;
+    private final int height;
     private final String imageFileName;
     private final String format;
 
-    private Scene scene;
-
-    public ApplicationConfiguration(String sceneName, String imageFileName, String format) {
-        this.sceneName = sceneName;
-        this.imageFileName = imageFileName;
-        this.format = format;
-    }
-
-    public String getSceneName() {
-        return sceneName;
-    }
-
-    public String getImageFileName() {
-        return imageFileName;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
 }

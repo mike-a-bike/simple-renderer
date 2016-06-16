@@ -2,4 +2,4 @@
 
 logging:
   level:
-    ch.zweivelo: INFO
+    ch.zweivelo: DEBUG
