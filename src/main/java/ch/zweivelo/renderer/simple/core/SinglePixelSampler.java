@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.app;
+package ch.zweivelo.renderer.simple.core;
 
-import ch.zweivelo.renderer.simple.core.SubPixelSampler;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
-import lombok.Value;
+import java.util.stream.Stream;
 
 /**
- * Settings object containing the result of the commandline parsing.
+ * Simple sampler. This creates no additional pixel, but uses the given point as new stream.
  *
  * @author Michael Bieri
- * @since 12.06.16
+ * @since 17.06.16
  */
+public class SinglePixelSampler implements SubPixelSampler {
 
-@Value(staticConstructor = "from")
-public class ApplicationConfiguration {
+    @Override
+    public Stream<Vector2D> sample(Vector2D pixel) {
+        return Stream.of(pixel);
+    }
 
-    private final String sceneName;
-    private final int width;
-    private final int height;
-    private final String imageFileName;
-    private final String format;
-    private final SubPixelSampler subPixelSampler;
-
+    @Override
+    public String toString() {
+        return "SinglePixelSampler";
+    }
 }

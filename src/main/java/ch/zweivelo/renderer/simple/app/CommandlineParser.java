@@ -16,6 +16,9 @@
 
 package ch.zweivelo.renderer.simple.app;
 
+import ch.zweivelo.renderer.simple.core.SinglePixelSampler;
+import ch.zweivelo.renderer.simple.core.SubPixelSampler;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -44,12 +47,15 @@ public class CommandlineParser {
     public Optional<ApplicationConfiguration> parse(String[] arguments) {
 
         return parseCommandLine(arguments).map(commandLine -> {
+
             final String sceneName = commandLine.getOptionValue("s");
             final String imageName = commandLine.getOptionValue("o", DEFAULT_IMAGE_NAME);
             final String format = commandLine.getOptionValue("f", DEFAULT_FORMAT);
             final int width = Integer.parseInt(commandLine.getOptionValue("w", DEFAULT_WIDTH));
             final int height = Integer.parseInt(commandLine.getOptionValue("h", DEFAULT_HEIGHT));
-            return ApplicationConfiguration.from(sceneName, width, height, imageName, format);
+            final SubPixelSampler pixelSampler = new SinglePixelSampler();
+
+            return ApplicationConfiguration.from(sceneName, width, height, imageName, format, pixelSampler);
         });
 
     }
@@ -57,13 +63,19 @@ public class CommandlineParser {
     private Optional<CommandLine> parseCommandLine(String[] arguments) {
         Options options = createCommandlineOptions();
         DefaultParser parser = new DefaultParser();
+
         try {
+
             return Optional.of(parser.parse(options, arguments));
+
         } catch (ParseException e) {
+
             log.error(e.getMessage());
             final HelpFormatter helpFormatter = new HelpFormatter();
             helpFormatter.printHelp(999, "java -jar simple-renderer-<version>.jar", null, options, null, true);
+
         }
+
         return Optional.empty();
     }
 

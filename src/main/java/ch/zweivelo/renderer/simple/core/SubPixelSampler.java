@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.app;
+package ch.zweivelo.renderer.simple.core;
 
-import ch.zweivelo.renderer.simple.core.SubPixelSampler;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
-import lombok.Value;
+import java.util.stream.Stream;
 
 /**
- * Settings object containing the result of the commandline parsing.
+ * Generic interface for all sub pixel sampler.
  *
  * @author Michael Bieri
- * @since 12.06.16
+ * @since 17.06.16
  */
+public interface SubPixelSampler {
 
-@Value(staticConstructor = "from")
-public class ApplicationConfiguration {
-
-    private final String sceneName;
-    private final int width;
-    private final int height;
-    private final String imageFileName;
-    private final String format;
-    private final SubPixelSampler subPixelSampler;
+    Stream<Vector2D> sample(Vector2D pixel);
 
 }

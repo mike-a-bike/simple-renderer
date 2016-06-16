@@ -91,8 +91,6 @@ public class SimpleRenderer {
 
             renderer.render(configuration, scene);
 
-            log.info("Rendering {}", scene);
-
         } catch (Throwable throwable) {
 
             log.error(format("Error during execution: %s%n", throwable.getMessage()), throwable);
