@@ -14,33 +14,40 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.core;
+package ch.zweivelo.renderer.simple.math.sampler;
 
-import ch.zweivelo.renderer.simple.math.sampler.Sampler;
-import ch.zweivelo.renderer.simple.math.sampler.SingleValueSampler;
-
-import lombok.NonNull;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.stream.Stream;
 
 /**
- * Simple sampler. This creates a sample in the middle of the given pixel using the {@link SingleValueSampler}
+ * Simple implementation: Just returns the midpoint of the requested samples.
  *
  * @author Michael Bieri
  * @since 17.06.16
  */
-public class SinglePixelSampler implements SubPixelSampler {
+public class SingleValueSampler implements Sampler {
 
-    private static final Sampler sampler = new SingleValueSampler();
+    private static final Vector2D UNIT_SQUARE_MID_POINT = new Vector2D(.5d, .5d);
 
     @Override
-    public Stream<Vector2D> sample(@NonNull Vector2D pixel) {
-        return sampler.unitSquare().map(pixel::add);
+    public Stream<Vector2D> unitSquare() {
+        return Stream.of(UNIT_SQUARE_MID_POINT);
     }
 
     @Override
-    public String toString() {
-        return "SinglePixelSampler";
+    public Stream<Vector2D> unitCircle() {
+        return Stream.of(Vector2D.ZERO);
+    }
+
+    @Override
+    public Stream<Vector3D> unitHemisphere() {
+        return Stream.of(Vector3D.PLUS_J);
+    }
+
+    @Override
+    public Stream<Vector3D> unitSphere() {
+        throw new RuntimeException("There is no single representative sample for a unit sphere");
     }
 }

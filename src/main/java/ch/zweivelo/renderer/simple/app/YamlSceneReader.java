@@ -27,6 +27,7 @@ import ch.zweivelo.renderer.simple.shapes.Shape;
 import ch.zweivelo.renderer.simple.shapes.Sphere;
 
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.yaml.snakeyaml.Yaml;
@@ -67,7 +68,7 @@ public class YamlSceneReader implements SceneReader {
 
         final String sceneName = configuration.getSceneName();
 
-        final Optional<Map<String, Object>> sceneMap = readSceneMap(sceneName);
+        final val sceneMap = readSceneMap(sceneName);
 
         return sceneMap.map(this::createSceneFromMap).orElseThrow(() -> new SceneReaderException("Error reading YAML scene description."));
 
@@ -138,11 +139,11 @@ public class YamlSceneReader implements SceneReader {
     private Collection<Shape> decodeShapes(List<Map<String, Object>> shapesMap) {
         final List<Shape> shapes = new ArrayList<>();
 
-        for (Map<String, Object> shapeWrapperMap : shapesMap) {
+        for (val shapeWrapperMap : shapesMap) {
             if (shapeWrapperMap.size() != 1) {
                 throw new SceneReaderException("Invalid shape description: " + shapeWrapperMap.toString());
             }
-            final Map.Entry<String, Object> shapeMapEntry = shapeWrapperMap.entrySet().iterator().next();
+            val shapeMapEntry = shapeWrapperMap.entrySet().iterator().next();
 
             final String shapeName = shapeMapEntry.getKey();
             final Shape shape;
@@ -168,11 +169,11 @@ public class YamlSceneReader implements SceneReader {
     private Collection<Light> decodeLights(List<Map<String, Object>> lightsMap) {
         final List<Light> lights = new ArrayList<>();
 
-        for (Map<String, Object> lightWrapperMap : lightsMap) {
+        for (val lightWrapperMap : lightsMap) {
             if (lightWrapperMap.size() != 1) {
                 throw new SceneReaderException("Invalid light description: " + lightWrapperMap.toString());
             }
-            final Map.Entry<String, Object> lightMapEntry = lightWrapperMap.entrySet().iterator().next();
+            val lightMapEntry = lightWrapperMap.entrySet().iterator().next();
 
             final String lightName = lightMapEntry.getKey();
             final Light light;
@@ -194,11 +195,11 @@ public class YamlSceneReader implements SceneReader {
     private Collection<Camera> decodeCameras(List<Map<String, Object>> camerasMap) {
         final List<Camera> cameras = new ArrayList<>();
 
-        for (Map<String, Object> cameraWrapperMap : camerasMap) {
+        for (val cameraWrapperMap : camerasMap) {
             if (cameraWrapperMap.size() != 1) {
                 throw new SceneReaderException("Invalid camera description: " + cameraWrapperMap.toString());
             }
-            final Map.Entry<String, Object> cameraMapEntry = cameraWrapperMap.entrySet().iterator().next();
+            val cameraMapEntry = cameraWrapperMap.entrySet().iterator().next();
 
             final String cameraName = cameraMapEntry.getKey();
             final Camera camera;

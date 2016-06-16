@@ -17,13 +17,12 @@
 package ch.zweivelo.renderer.simple.core;
 
 import ch.zweivelo.renderer.simple.app.ApplicationConfiguration;
-import ch.zweivelo.renderer.simple.cameras.Camera;
 
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Renderer using the ray casting method.
@@ -41,10 +40,10 @@ public class RayCaster implements Renderer {
         printRenderingHeader(configuration, scene);
 
         // Simplification: use only the first camera
-        final Camera camera = scene.getCameras().stream().findFirst().orElseThrow(RuntimeException::new);
+        val camera = scene.getCameras().stream().findFirst().orElseThrow(RuntimeException::new);
 
         // Initialize pixel stream for rendering (this contains sampled sub-pixel as well)
-        final Stream<Vector2D> pixelStream = IntStream.range(0, configuration.getHeight())
+        val pixelStream = IntStream.range(0, configuration.getHeight())
                 .mapToObj(Integer::valueOf)
                 .flatMap(y -> IntStream.range(0, configuration.getWidth()).mapToObj(Integer::valueOf).map(x -> new Vector2D(x, y)))
                 .flatMap(configuration.getSubPixelSampler()::sample)
@@ -55,6 +54,7 @@ public class RayCaster implements Renderer {
     }
 
     private void printRenderingHeader(ApplicationConfiguration configuration, Scene scene) {
+        log.info("-----------------------------------------------------------");
         log.info("RayCaster");
         log.info(" - rendering: {}", scene);
         log.info(" - image dimensions: {}x{}", configuration.getWidth(), configuration.getHeight());
@@ -64,6 +64,7 @@ public class RayCaster implements Renderer {
 
     private void printRenderingFooter() {
         log.info("RayCaster: rendering done");
+        log.info("-----------------------------------------------------------");
     }
 
 }

@@ -16,6 +16,8 @@
 
 package ch.zweivelo.renderer.simple.math;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
@@ -26,34 +28,17 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
  * @version 0.1
  * @since 03.08.2015
  */
+
+@Getter
+@AllArgsConstructor
 public class Ray {
 
     private final Vector3D origin;
-
     private final Vector3D direction;
-
     private final DoubleRange interval;
-
-    public Ray(final Vector3D origin, final Vector3D direction, final DoubleRange interval) {
-        this.origin = origin;
-        this.direction = direction;
-        this.interval = interval;
-    }
 
     public Ray(final Vector3D origin, final Vector3D direction) {
         this(origin, direction, DoubleRange.from(MathUtils.EPSILON, MathUtils.LARGE_VALUE));
-    }
-
-    public Vector3D getOrigin() {
-        return origin;
-    }
-
-    public Vector3D getDirection() {
-        return direction;
-    }
-
-    public DoubleRange getInterval() {
-        return interval;
     }
 
     public boolean isValidT(double t) {

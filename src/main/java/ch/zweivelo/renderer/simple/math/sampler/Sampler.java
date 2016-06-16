@@ -14,33 +14,27 @@
  * limitations under the License.
  */
 
-package ch.zweivelo.renderer.simple.core;
+package ch.zweivelo.renderer.simple.math.sampler;
 
-import ch.zweivelo.renderer.simple.math.sampler.Sampler;
-import ch.zweivelo.renderer.simple.math.sampler.SingleValueSampler;
-
-import lombok.NonNull;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.stream.Stream;
 
 /**
- * Simple sampler. This creates a sample in the middle of the given pixel using the {@link SingleValueSampler}
+ * Generic sampler interface
  *
  * @author Michael Bieri
  * @since 17.06.16
  */
-public class SinglePixelSampler implements SubPixelSampler {
+public interface Sampler {
 
-    private static final Sampler sampler = new SingleValueSampler();
+    Stream<Vector2D> unitSquare();
 
-    @Override
-    public Stream<Vector2D> sample(@NonNull Vector2D pixel) {
-        return sampler.unitSquare().map(pixel::add);
-    }
+    Stream<Vector2D> unitCircle();
 
-    @Override
-    public String toString() {
-        return "SinglePixelSampler";
-    }
+    Stream<Vector3D> unitHemisphere();
+
+    Stream<Vector3D> unitSphere();
+
 }
