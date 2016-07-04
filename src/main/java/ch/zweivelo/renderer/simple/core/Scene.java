@@ -33,12 +33,13 @@ import java.util.Collection;
 @Value
 public class Scene {
 
+    private final String name;
     private final Collection<Shape> shapes;
     private final Collection<Light> lights;
     private final Collection<Camera> cameras;
 
     @Override
     public String toString() {
-        return String.format("Scene: %d shapes, %d lights, %d cameras", shapes.size(), lights.size(), cameras.size());
+        return String.format("Scene [%s]: %d shapes, %d lights, %d cameras", name, shapes.size(), lights.size(), cameras.size());
     }
 }

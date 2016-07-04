@@ -52,6 +52,8 @@ import java.util.Optional;
 @SuppressWarnings("unchecked") // much casting due to the nature of the untyped YAML decoder
 public class YamlSceneReader implements SceneReader {
 
+    private static final String NAME_KEY = "name";
+
     private static final String SHAPES_KEY = "shapes";
     private static final String LIGHTS_KEY = "lights";
     private static final String CAMERAS_KEY = "cameras";
@@ -101,6 +103,7 @@ public class YamlSceneReader implements SceneReader {
         Collection<Shape> shapes = null;
         Collection<Light> lights = null;
         Collection<Camera> cameras = null;
+        String name = null;
 
         for (Map.Entry<String, Object> entry : sceneMap.entrySet()) {
             switch(entry.getKey()) {
@@ -116,9 +119,17 @@ public class YamlSceneReader implements SceneReader {
                     cameras = decodeCameras((List<Map<String, Object>>) entry.getValue());
                     break;
 
+                case NAME_KEY:
+                    name = ((String) entry.getValue());
+                    break;
+
                 default:
                     throw new SceneReaderException("Invalid yaml key found: " + entry.getKey());
             }
+        }
+
+        if (name == null) {
+            throw new SceneReaderException("Name is mandatory in scene");
         }
 
         if (shapes == null) {
@@ -133,7 +144,7 @@ public class YamlSceneReader implements SceneReader {
             throw new SceneReaderException("No cameras defined in scene");
         }
 
-        return new Scene(shapes, lights, cameras);
+        return new Scene(name, shapes, lights, cameras);
     }
 
     private Collection<Shape> decodeShapes(List<Map<String, Object>> shapesMap) {
