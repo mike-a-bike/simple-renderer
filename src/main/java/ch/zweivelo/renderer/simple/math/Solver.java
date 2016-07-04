@@ -235,7 +235,7 @@ public enum Solver {
                 /* ... and take the one real solution ... */
                 double z = cubicSolution.findFirst().get();
 
-                /* ... to build two quadric equations */
+                /* ... to build two quadratic equations */
                 double u = z * z - r;
                 double v = 2 * z - p;
 
